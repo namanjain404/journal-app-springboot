@@ -10,7 +10,7 @@ import java.util.Date;
 @Document
 public class JournalEntry {
 
-    @Id
+    @Id // Generated ID
     private ObjectId id;
     private String title;
     private String content;
