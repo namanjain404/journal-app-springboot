@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -39,11 +38,11 @@ public class UserController {
 
     @PutMapping("/{username}")
     public ResponseEntity<?> updateUserByUsername(@PathVariable String username, @RequestBody User newUser) {
-        User old =  userService.findByUsername(username);
-        if(old != null) {
-            old.setUsername(newUser.getUsername());
-            old.setPassword(newUser.getPassword());
-            userService.saveUser(newUser);
+        User userInDb =  userService.findByUsername(username);
+        if(userInDb != null) {
+            userInDb.setUsername(newUser.getUsername());
+            userInDb.setPassword(newUser.getPassword());
+            userService.saveUser(userInDb);
             return new  ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,13 +1,13 @@
 package com.naman.journalApp.service;
 
 import com.naman.journalApp.entity.JournalEntry;
+import com.naman.journalApp.entity.User;
 import com.naman.journalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +16,15 @@ public class JournalEntryService {
 
     @Autowired
     public JournalEntryRepository journalEntryRepository;
+    @Autowired
+    private UserService userService;
 
-    public void saveEntry(JournalEntry myEntry) {
-        journalEntryRepository.save(myEntry);
+    public void saveEntry(JournalEntry myEntry, String username) {
+        User user = userService.findByUsername(username);
+        myEntry.setDate(LocalDateTime.now());
+        JournalEntry saved = journalEntryRepository.save(myEntry);
+        user.getJournalEntry().add(saved);
+        userService.saveUser(user);
     }
 
     public List<JournalEntry> getAll() {
