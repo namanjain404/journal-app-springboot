@@ -37,9 +37,9 @@ public class UserController {
         }
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("/{username}")
     public ResponseEntity<?> updateUserByUsername(@PathVariable String username, @RequestBody User newUser) {
-        User old =  userService.findByUsername(newUser.getUsername());
+        User old =  userService.findByUsername(username);
         if(old != null) {
             old.setUsername(newUser.getUsername());
             old.setPassword(newUser.getPassword());
