@@ -3,7 +3,7 @@ package com.naman.journalApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication // react-frontend
 public class JournalApplication {
 
 	public static void main(String[] args) {
