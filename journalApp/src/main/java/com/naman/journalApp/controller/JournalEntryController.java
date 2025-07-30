@@ -19,6 +19,7 @@ public class JournalEntryController {
 
     @Autowired
     public JournalEntryService journalEntryService;
+
     @Autowired
     private UserService userService;
 
