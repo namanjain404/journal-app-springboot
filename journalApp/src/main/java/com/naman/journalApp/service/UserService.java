@@ -1,5 +1,6 @@
 package com.naman.journalApp.service;
 
+import com.naman.journalApp.entity.JournalEntry;
 import com.naman.journalApp.entity.User;
 import com.naman.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class UserService {
     public void saveNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
+        userRepository.save(user);
+    }
+
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
