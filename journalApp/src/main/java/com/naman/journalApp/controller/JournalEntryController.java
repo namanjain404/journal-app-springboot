@@ -78,16 +78,21 @@ public class JournalEntryController {
         }
     }
 
-    @PutMapping("/id/{username}/{id}")
-    public ResponseEntity<?> updateEntryById(@PathVariable ObjectId id,
-                                             @RequestBody JournalEntry newEntry,
-                                             @PathVariable String username) {
-        JournalEntry old =  journalEntryService.getById(id).orElse(null);
-        if(old != null) {
-            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : old.getTitle());
-            old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : old.getContent());
-            journalEntryService.saveEntry(old);
-            return new  ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/id/{id}")
+    public ResponseEntity<?> updateEntryById(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user  = userService.findByUsername(userName);
+        List<JournalEntry> collect = user.getJournalEntry().stream().filter(x -> x.getId().equals(id)).collect(Collectors.toList());
+        if (!collect.isEmpty()) {
+            Optional<JournalEntry> journalEntry = journalEntryService.getById(id);
+            if (journalEntry.isPresent()) {
+                JournalEntry old = journalEntry.get();
+                old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : old.getTitle());
+                old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : old.getContent());
+                journalEntryService.saveEntry(old);
+                return new  ResponseEntity<>(HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
