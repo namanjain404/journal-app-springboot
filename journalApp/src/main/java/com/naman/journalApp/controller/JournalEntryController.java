@@ -71,7 +71,7 @@ public class JournalEntryController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         boolean removed = journalEntryService.deleteById(myId, userName);
-        if(removed) {
+        if (removed) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,7 +82,7 @@ public class JournalEntryController {
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User user  = userService.findByUsername(userName);
+        User user = userService.findByUsername(userName);
         List<JournalEntry> collect = user.getJournalEntry().stream().filter(x -> x.getId().equals(id)).collect(Collectors.toList());
         if (!collect.isEmpty()) {
             Optional<JournalEntry> journalEntry = journalEntryService.getById(id);
@@ -91,7 +91,7 @@ public class JournalEntryController {
                 old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : old.getTitle());
                 old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : old.getContent());
                 journalEntryService.saveEntry(old);
-                return new  ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

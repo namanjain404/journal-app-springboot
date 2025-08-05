@@ -50,12 +50,12 @@ public class JournalEntryService {
     public boolean deleteById(ObjectId id, String username) {
         boolean removed = false;
         try {
-        User user = userService.findByUsername(username);
-        removed = user.getJournalEntry().removeIf(x -> x.getId().equals(id));
-        if(removed) {
-            userService.saveUser(user);
-            journalEntryRepository.deleteById(id);
-        }
+            User user = userService.findByUsername(username);
+            removed = user.getJournalEntry().removeIf(x -> x.getId().equals(id));
+            if (removed) {
+                userService.saveUser(user);
+                journalEntryRepository.deleteById(id);
+            }
         } catch (Exception e) {
             System.out.println(e);
             throw new RuntimeException("An error occured while deleting the entry");
