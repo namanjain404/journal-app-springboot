@@ -5,3 +5,9 @@ spring:
       port: 27017
       database: journaldb
       auto-index-creation: true
+
+logging:
+  level:
+    com:
+      naman:
+        journalApp: TRACE

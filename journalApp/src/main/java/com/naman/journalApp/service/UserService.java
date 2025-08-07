@@ -29,12 +29,16 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e) {
-            log.error("Duplicate user created for {}", user.getUsername(), e);
+            log.error("hahahaha");
+            log.trace("hahahaha");
+            log.debug("hahahaha");
+            log.warn("hahahaha");
+            log.info("hahahaha");
             return false;
         }
     }
 
-    public void saveAdmin (User user) {
+    public void saveAdmin(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER", "ADMIN"));
         userRepository.save(user);
