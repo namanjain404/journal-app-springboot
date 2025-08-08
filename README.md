@@ -1,1 +1,1 @@
-# journal-app-springboot
+# journal-app
